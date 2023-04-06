@@ -72,7 +72,10 @@ const Nav = () => {
             <div class="flex -mr-2 md:hidden">
               <button
                 class="text-gray-800 dark:text-white hover:text-gray-300 inline-flex items-center justify-center p-2 rounded-md focus:outline-none"
-                onClick={() => setOpen(!open)}
+                onClick={() => {
+                  setOpen(!open);
+                  setDropdown(false);
+                }}
               >
                 <svg
                   width="20"
@@ -91,22 +94,64 @@ const Nav = () => {
         <div
           class={
             open
-              ? "md:hidden h-24 transition-all "
+              ? "md:hidden  transition-all  duration-200"
               : "md:hidden h-0 overflow-y-hidden transition-all"
           }
         >
-          <div class="px-2 -mt-5 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+          <div class="px-0 -mt-5 pt-2 pb-3 space-y-1 sm:px-3 text-center">
             <Link
               to="/"
               class="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
             </Link>
+            <div>
+              <button
+                type="button"
+                class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-gray-300  px-3 py-2 text-sm font-semibold  shadow-sm "
+                id="menu-button"
+                aria-expanded="true"
+                aria-haspopup="true"
+                onClick={() => setDropdown(!dropdown)}
+              >
+                Tools
+              </button>
+            </div>
+            <div
+              class={
+                dropdown
+                  ? " right-0 z-10 mt-10 w-full origin-top-right rounded-md scale-100 transition-all"
+                  : "right-0 z-10 mt-2 w-full origin-top-right rounded-md scale-0  transition-all hidden"
+              }
+            >
+              <div role="none">
+                <Link
+                  to="/picker"
+                  className="text-gray-300 block px-4 py-2 text-sm hover:bg-slate-50/10 "
+                  onClick={() => {
+                    setDropdown(false);
+                    setOpen(false);
+                  }}
+                >
+                  Picker Name / Order
+                </Link>
+                <Link
+                  to="/teams"
+                  className="text-gray-300 block px-4 py-2 text-sm hover:bg-slate-50/10"
+                  onClick={() => {
+                    setDropdown(false);
+                    setOpen(false);
+                  }}
+                >
+                  Teams Generator
+                </Link>
+              </div>
+            </div>
             <Link
               to="/result"
               class="text-gray-300 dark:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
-              Gallery
+              Result
             </Link>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Generator from "./components/Generator";
+import Generator from "./pages/Generator";
 import Nav from "./components/Nav";
-import Result from "./components/Result";
-import dark from "./assets/night.jpg";
+import Result from "./pages/Result";
 import { useState } from "react";
-import TeamGenerator from "./components/TeamGenerator";
+import TeamGenerator from "./pages/TeamGenerator";
+import Homep from "./pages/Homep";
 
 function App() {
   const [random, setRandom] = useState([]);
@@ -17,7 +17,7 @@ function App() {
       <BrowserRouter>
         <Nav />
         <Routes>
-          <Route path="/" element={<h1>Welcome</h1>} />
+          <Route path="/" element={<Homep />} />
           <Route
             path="/picker"
             element={

@@ -1,22 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dark from "../assets/night.jpg";
 import { shuffle } from "../lib/helper";
 import { Link, useNavigate } from "react-router-dom";
 
-const Generator = (params) => {
-  const [noOfPeopleToSelect, setNoPeopleToSelect] = useState();
+const TeamGenerator = (params) => {
+  const [noOfTeams, setNoOfTeams] = useState();
   const [people, setPeople] = useState([]);
   const navigate = useNavigate();
 
   const handleBtnClick = () => {
-    const suffledArray = shuffle(people);
-    if (noOfPeopleToSelect === undefined || noOfPeopleToSelect < 0) {
-      params.setRandom([]);
+    const suffledArray = shuffle(params.people);
+    if (!noOfTeams || noOfTeams < 0) {
+      params.setTeams([]);
     } else {
-      const sliceArray = suffledArray.slice(0, noOfPeopleToSelect);
-      params.setRandom(sliceArray);
+      const noOfPeoplePerTeam = suffledArray.length / noOfTeams;
+      // console.log(noOfPeoplePerTeam);
+      const res = [];
+      for (let i = 0; i < noOfTeams; i++) {
+        res.push(
+          suffledArray.slice(i * noOfPeoplePerTeam, (i + 1) * noOfPeoplePerTeam)
+        );
+        params.setTeams(res);
+      }
+      // params.setRandom(sliceArray);
     }
-    params.setTeams([]);
+    console.log(suffledArray);
+    params.setRandom([]);
     navigate({ to: "/result" });
   };
   return (
@@ -30,7 +39,7 @@ const Generator = (params) => {
             <div class="leading-loose">
               <form class="max-w-sm p-10 m-auto rounded shadow-xl bg-white/25 backdrop-blur-sm">
                 <p class="mb-8 text-2xl text-center text-white font-semibold">
-                  ⚙️Picker Name / Order GENERATOR⚙️
+                  ⚙️TEAMS GENERATOR⚙️
                 </p>
                 <div class="mb-2">
                   <div class=" relative ">
@@ -47,10 +56,10 @@ const Generator = (params) => {
                           .map((str) => {
                             return str.trim();
                           });
-                        setPeople(list);
+                        params.setPeople(list);
                         params.setDataOld(e.target.value);
                       }}
-                      value={params.dataOld}
+                      value={params.old}
                     />
                   </div>
                 </div>
@@ -60,9 +69,9 @@ const Generator = (params) => {
                       type="number"
                       id="login-with-bg-password"
                       class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                      placeholder="Masukan angka "
+                      placeholder="Masukan angka Groups"
                       onChange={(e) => {
-                        setNoPeopleToSelect(e.target.value);
+                        setNoOfTeams(e.target.value);
                       }}
                     />
                   </div>
@@ -74,7 +83,7 @@ const Generator = (params) => {
                     class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                     onClick={handleBtnClick}
                   >
-                    Apply
+                    Generate
                   </Link>
                 </div>
                 <div class="text-center">
@@ -98,4 +107,4 @@ const Generator = (params) => {
   );
 };
 
-export default Generator;
+export default TeamGenerator;
