@@ -1,4 +1,3 @@
-import icon from "../assets/logo.png";
 import dark from "../assets/night.jpg";
 import { Picker } from "../components/generator/Picker";
 import { Team } from "../components/generator/Team";
